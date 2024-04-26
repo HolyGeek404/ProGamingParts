@@ -1,0 +1,98 @@
+﻿@model Model.General.ProductModel
+
+<h4 class="p-2 m-0 ">Karty Graficzne</h4>
+<div class="col-2 sticky-top p-0 m-0 float-left">
+    <div class="col-10 border-top rounded border-right p-0 m-0">
+        <div class="p-2">
+            <span class="h6 d-block">Cena</span>
+            <input type="number" class="col-4 p-0 m-0 border rounded text-center"/> - <input type="number" class="col-4 p-0 m-0 border rounded text-center"/>
+        </div>
+        <form id="filterForm">
+            @{
+                @foreach (var valuesOfParam in Model.FilterParametersList.SelectMany(param => param))
+                {
+                    <fieldset>
+                        <div class="p-2">
+                            <span class="h6 d-block">@valuesOfParam.Key</span>
+
+                            @foreach (var idk in valuesOfParam.Value.Where( x => !string.IsNullOrWhiteSpace(x)))
+                            {
+                                <label class="d-block m-0">
+                                    <input type="checkbox" class="filter-data" name="@valuesOfParam.Key" value="@idk" data-filter-type="@valuesOfParam.Key"/><span class="p-1">@idk</span>
+                                </label>
+                            }
+
+                        </div>
+                    </fieldset>
+                }
+            }
+        </form>
+        <div class="col-12 d-flex align-items-center justify-content-center">
+            <button class="d-block btn-primary col-7 rounded Filter">Filtruj</button>
+            <i class="fa-solid ml-2 fa-circle-xmark clearFilters fa-xl text-danger" style="cursor: pointer"></i>
+        </div>
+    </div>
+</div>
+<div class="row col-6 filters"></div>
+<div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center" id="products">
+    @foreach (var productParameters in Model.Products)
+    {
+        <a href="@Url.ActionLink("GetProduct", Model.Controller, new { id = productParameters["ProductId"] })">
+            <div class="col-lg-10 col-8 shadow-sm rounded m-2" style="height: 400px; width: 450px;">
+                <div class="col-12 p-0 m-1">
+                    <img src="@productParameters["ProductImg"]" width="230" height="200" alt="ProductImg"/>
+                </div>
+                <div class="col-12 text p-0 m-0">
+                    <h6>@productParameters["Name"]</h6>
+                </div>
+                <div class="col-12 text mt-3 p-0 m-0 text-left text-black-50">
+                    @for (var i = 7; i <= 10; i++)
+                    {
+                        var x = productParameters.ElementAt(i);
+                        <span class="d-block text"><b>@x.Key:</b> @x.Value</span>
+                    }
+                </div>
+                <div class="col-12 text-center mt-4 m-1">
+                    <h4>@productParameters["Price"] zl</h4>
+                </div>
+            </div>
+        </a>
+    }
+</div>
+
+@{
+    switch (Model.Controller)
+    {
+        case "Cpu":
+            <script src="~/js/CpuFilter.js"></script>
+            <script>$(function () { new CpuFilter("@Model.QuickFilter"); });</script>
+            break;
+        case "Gpu":
+            <script src="~/js/GpuFilter.js"></script>
+            <script>$(function () { new GpuFilter("@Model.QuickFilter"); });</script>
+            break;
+    }
+}
+
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .text {
+       display: block;
+       width: 350px;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+     }
+    .p {
+        cursor: pointer;
+        transition: box-shadow 0.7s;
+    }
+
+        .p:hover {
+            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        }
+</style>

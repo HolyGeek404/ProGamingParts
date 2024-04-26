@@ -1,0 +1,20 @@
+﻿@model List<Model.General.SetsSnapshotModel>
+
+<div class="bg-secondary rounded col-12 d-flex flex-wrap">
+    @foreach (var x in Model)
+    {
+        <div class="bg-light border-primary border rounded d-inline-block p-2 m-2">
+            @x.Price zł |
+            @switch (x.Team)
+            {
+                case "AMD  ":
+                    <span class="text-danger">@x.Team</span>
+                    break;
+
+                case "Intel":
+                    <span class="text-primary">@x.Team</span>
+                    break;
+            }
+        </div>
+    }
+</div>

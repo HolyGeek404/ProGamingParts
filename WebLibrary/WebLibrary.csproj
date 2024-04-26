@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <StartupObject>WebLibrary.Program</StartupObject>
+        <Nullable>enable</Nullable>
+        <UserSecretsId>938d8ed4-1148-469f-884a-23d563bf6c78</UserSecretsId>
+        <LangVersion>12</LangVersion>
+        <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+        <ProjectReference Include="..\Model\Model.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <TypeScriptCompile Include="wwwroot\ts\Cart.ts" />
+        <TypeScriptCompile Include="wwwroot\ts\GpuFilter.ts" />
+        <TypeScriptCompile Include="wwwroot\ts\Login.ts" />
+        <TypeScriptCompile Include="wwwroot\ts\Registration.ts" />
+        <TypeScriptCompile Include="wwwroot\ts\User.ts" />
+        <TypeScriptCompile Include="wwwroot\ts\CpuFilter.ts" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="wwwroot\lib\jquery\jquery.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Properties\serviceDependencies.local.json" />
+    </ItemGroup>
+</Project>

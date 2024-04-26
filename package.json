@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/jquery": "^3.5.16"
+  },
+  "dependencies": {
+    "sanitize": "^2.1.2",
+    "string-sanitizer": "^2.0.2"
+  }
+}

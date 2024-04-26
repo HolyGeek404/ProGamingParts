@@ -1,0 +1,36 @@
+﻿@model  Dictionary<int,List<DataAccess.DTO.OrdersBaseInfoDto>>
+
+ <h2 class="font-weight-light ml-1 ">Zamówienia</h2>
+
+@foreach (var order in Model)
+{
+    var totalPrice = order.Value.Sum(product => product.Price * product.Quantity);
+   
+    <div class="order mt-4">
+        <div class="orders shadow-sm ml-1 row">
+            <div class="order-info col-2 p-4 rounded bg-secondary-light float-left">
+                <p class="m-0 mb-3 font-weight-bold">Zakończone</p>
+                <p class="m-0 text-secondary">@order.Value[0].CreationDate</p>
+                <p class="m-0 text-secondary">Ilość: @order.Value.Count</p>
+                <p class="m-0 text-secondary">Nr zamówienia: @order.Key</p>
+                <p class="m-0 mt-3 font-weight-bold">Cena: @totalPrice zł</p>
+            </div>
+            <div class="order-product-info col-10 float-left">
+                
+                <fieldset class="row m-4 p-4 rounded product">
+                    @foreach (var product in order.Value)
+                    {
+                        <div class="col-4 m-4 p-2">
+                            <div class="row">
+                                <a href="@Url.ActionLink("GetProduct", product.ProductType.Trim(), new { id = product.ProductId })">
+                                    <img width="150" height="150" class="img-thumbnail border-0" src="@product.ProductImg" alt="@product.ProductName">
+                                    <p>@product.ProductName</p>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </fieldset>
+            </div>
+        </div>
+    </div>
+}

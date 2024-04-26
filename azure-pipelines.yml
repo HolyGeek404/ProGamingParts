@@ -1,0 +1,78 @@
+name: ProGamingParts
+
+trigger:
+  branches:
+    exclude:
+    - '*'
+
+parameters:
+- name: Target
+  type: string
+  default: BuildAndTest
+  values:
+    - BuildAndTest
+    - Release
+
+stages:
+  - stage: BuildAndTest
+    jobs:
+      - job: installSDK
+        displayName: Starting BuildAndTest stage
+        steps:
+          - task: UseDotNet@2
+            displayName: Installing SDK
+            inputs:
+              packageType: 'sdk'
+              version: '8.0.x'
+          - task: NuGetCommand@2
+            displayName: 'Restoring nugets'
+            inputs:
+              command: 'restore'
+              restoreSolution: '**/*.sln'
+              feedsToUse: 'select'
+          - task: DotNetCoreCLI@2
+            displayName: 'Building'
+            inputs:
+              command: 'build'
+              arguments: '--configuration Release'
+          - task: DotNetCoreCLI@2
+            displayName: 'Testing'
+            inputs:
+              command: 'test'
+          - task: DotNetCoreCLI@2
+            condition: and(succeeded(), eq('${{ parameters.Target }}', 'Release'))
+            displayName: Preparing code for publish
+            inputs:
+              command: 'publish'
+              publishWebProjects: true
+              arguments: '--no-build --configuration Release'
+          - task: PublishPipelineArtifact@1
+            displayName: Publishing
+            inputs:
+              targetPath: '$(Pipeline.Workspace)'
+              artifact: 'ProGamingParts'
+              publishLocation: 'pipeline'
+          - task: PublishCodeCoverageResults@2
+            inputs:
+              summaryFileLocation: '$(System.DefaultWorkingDirectory)'
+
+  - stage: Release
+    condition: and(succeeded(), eq('${{ parameters.Target }}', 'Release'))
+    jobs:
+      - job: GetAndReleaseArtifact
+        displayName: GetAndReleaseArtifact
+        steps:
+          - task: DownloadPipelineArtifact@2
+            displayName: Downloading Artifact
+            inputs:
+              buildType: 'current'
+              artifactName: 'ProGamingParts'
+              targetPath: '$(Pipeline.Workspace)'
+          - task: AzureWebApp@1
+            displayName: Releasing
+            inputs:
+              azureSubscription: 'Azure subscription 1(98528af0-41e4-4e55-823c-9f9d268da483)'
+              appType: 'webApp'
+              appName: 'GoodStuff'
+              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              deploymentMethod: 'auto'
