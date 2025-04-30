@@ -1,10 +1,9 @@
-﻿using DataAccess.DTO;
-using Model.Cpu;
+﻿using Model.DataTransfer;
 
 namespace Model.Services.Categories.FilterManagers.Interfaces;
 
 public interface ICpuFilterManager
 {
-    List<Dictionary<string, List<string>>> CreateFilterParametersList(List<CpuFiltersDto> cpuFiltersDtos);
-    List<CpuProductDto> FilterOutProducts(CpuFilterParams param, List<CpuProductDto> cpuSnapshotDtos);
+    List<Dictionary<string, List<string>>> CreateFilterParametersList(CpuFiltersDto cpuFiltersDtos);
+    List<CpuDto> FilterOutProducts(CpuFiltersDto param, List<CpuDto> cpuSnapshotDtos);
 }

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DataAccess.DTO;
-using Model.Gpu;
-using Model.Services.Categories.FilterManagers;
+using Model.DataTransfer;
+using Model.Services.Categories.FilterManagers.GPU;
 using NUnit.Framework;
 
 namespace Model.Test.FilterManagers;
@@ -15,24 +14,16 @@ public class GpuFilterManagerTest
     {
         //Arr
         var gpuFilterManager = new GpuFilterManager();
-        var gpuFiltersDtos = new List<GpuFiltersDto>
+        var gpuFilters = new GpuFiltersDto
         {
-            new()
-            {
-                Manufacturer = "man1", MemorySize = "mems1", MemoryType = "memt1", AmdGpuProcessorName = "amd1",
-                NvidiaGpuProcessorName = "nvi1", Team = "nvidia"
-            },
-            new()
-            {
-                Manufacturer = "man2", MemorySize = "mems2", MemoryType = "memt2", AmdGpuProcessorName = "amd2",
-                NvidiaGpuProcessorName = "nvi2", Team = "amd"
-            },
-            new()
-            {
-                Manufacturer = "man3", MemorySize = "mems3", MemoryType = "memt3", AmdGpuProcessorName = "amd3",
-                NvidiaGpuProcessorName = "nvi3", Team = "amd"
-            }
+            ManufactureList = ["man1", "man2", "man3"],
+            AmdGpuProcessorNameList = ["amd1", "amd2", "amd3"],
+            NvidiaGpuProcessorNameList = ["nvi1", "nvi2", "nvi3"],
+            MemorySizeList = ["mems1", "mems2", "mems3"],
+            MemoryTypeList = ["memt1", "memt2", "memt3"],
+            TeamList = ["nvidia", "amd"]
         };
+
         var expectedListOfParameters = new List<Dictionary<string, List<string>>>
         {
             new() { { "Manufactures", ["man1", "man2", "man3"] } },
@@ -40,11 +31,11 @@ public class GpuFilterManagerTest
             new() { { "NvidiaGpuProcessorNames", ["nvi1", "nvi2", "nvi3"] } },
             new() { { "MemorySizes", ["mems1", "mems2", "mems3"] } },
             new() { { "MemoryTypes", ["memt1", "memt2", "memt3"] } },
-            new() { { "Teams", ["nvidia", "amd"] } }
+            new() { { "TeamList", ["nvidia", "amd"] } }
         };
 
         //Act
-        var result = gpuFilterManager.CreateFilterParametersList(gpuFiltersDtos);
+        var result = gpuFilterManager.CreateFilterParametersList(gpuFilters);
 
         //Ass
         Assert.That(result, Is.EquivalentTo(expectedListOfParameters));
@@ -56,23 +47,20 @@ public class GpuFilterManagerTest
         //Arr
         var gpuFilterManager = new GpuFilterManager();
 
-        var gpuFilterParams = new GpuFilterParamsModel
+        var gpuFilterParams = new GpuFiltersDto
         {
-            Manufactures = ["man1"],
-            GpuProcessorName = ["amd"],
-            MemoryTypes = ["memt3"]
+            ManufactureList = ["man1"],
+            GpuProcessorNameList = ["amd"],
+            MemoryTypeList = ["memt3"]
         };
-        var gpuProductDtos = new List<GpuProductDto>
+        var gpuProductDtos = new List<GpuDto>
         {
-            new()
-            {
-                Manufacturer = "man1", GpuProcessorName = "amd", MemoryType = "memt2"
-            }, // shouldn't be in result list
-            new() { Manufacturer = "man1", GpuProcessorName = "amd", MemoryType = "memt3" }, // should be 
-            new() { Manufacturer = "man3", GpuProcessorName = "nvidia", MemoryType = "memt1" } // shouldn't be 
+            new() { Manufacturer = "man1", GpuProcessorName = "amd", MemoryType = "memt2" },
+            new() { Manufacturer = "man1", GpuProcessorName = "amd", MemoryType = "memt3" },
+            new() { Manufacturer = "man3", GpuProcessorName = "nvidia", MemoryType = "memt1" }
         };
-        var expectedCpuProductDtos = new GpuProductDto
-            { Manufacturer = "man1", GpuProcessorName = "amd", MemoryType = "memt3" };
+        var expectedCpuProductDtos = new GpuDto
+        { Manufacturer = "man1", GpuProcessorName = "amd", MemoryType = "memt3" };
 
         //Act
         var result = gpuFilterManager.FilterOutProducts(gpuFilterParams, gpuProductDtos);

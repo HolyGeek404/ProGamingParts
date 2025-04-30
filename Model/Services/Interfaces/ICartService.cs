@@ -1,13 +1,12 @@
-﻿using DataAccess.DTO;
-using Model.Cart;
-using Model.General;
+﻿using Model.DataTransfer;
+using Model.Models.Cart;
 
 namespace Model.Services.Interfaces;
 
 public interface ICartService
 {
-    void Add(int productId, int quantity, string userId);
+    void Add(AddCartModel addCartModel, string userId);
     void Remove(int productId, string userId);
     CartModel ReturnModel(string userId);
-    void CreateOrder(UserOrderDataModel model);
+    void CreateOrder(UserOrderDataDto model);
 }

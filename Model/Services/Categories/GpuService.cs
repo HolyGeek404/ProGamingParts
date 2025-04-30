@@ -1,47 +1,63 @@
-﻿using DataAccess.DAO.Interfaces;
-using Model.General;
-using Model.Gpu;
+﻿using Model.DataAccess.Interfaces;
+using Model.DataTransfer;
+using Model.Models.General;
 using Model.Services.Categories.CastManagers.Interfaces;
 using Model.Services.Categories.FilterManagers.Interfaces;
 using Model.Services.Categories.Interfaces;
+using Model.Services.General;
 
 namespace Model.Services.Categories;
 
-public class GpuService(IGpuFilterManager gpuFilterManager, IGpuDao gpuDao, IGpuCastManager gpuCastManager) : BaseService, IGpuService
+public class GpuService(IGpuFilterManager gpuFilterManager, IGpuDao gpuDao, IGpuCastManager gpuCastManager) : BaseCategoryService, ICategoryService
 {
-    private IGpuFilterManager GpuFilterManager { get; } = gpuFilterManager;
-    private IGpuDao GpuDao { get; } = gpuDao;
-    private IGpuCastManager GpuCastManager { get; } = gpuCastManager;
-
     public ProductModel ReturnModel()
     {
-        var gpuProductSnapshots = GpuDao.GetGpuProductSnapshots().Cast<object>().ToList();
-        var gpusFiltersDtos = GpuDao.GetGpusFilterParameters();
+        var gpuProductSnapshots = gpuDao.GetGpuProductSnapshots().Cast<object>().ToList();
+        var gpusFiltersDtos = gpuDao.GetGpusFilterParameters();
 
         return new ProductModel
         {
             Products =  CreateListOfProducts(gpuProductSnapshots),
-            FilterParametersList = GpuFilterManager.CreateFilterParametersList(gpusFiltersDtos),
+            FilterParametersList = gpuFilterManager.CreateFilterParametersList(gpusFiltersDtos),
             Controller = "Gpu",
-            FilterParameterListTemplate = GpuCastManager.CastToJsonFormat(new GpuFilterParamsModel())
+            FilterParameterListTemplate = gpuCastManager.CastToJsonFormat(new GpuFiltersDto())
         };
     }
 
     public ProductModel GetProduct(int id)
     {
-        return CreateProduct(GpuDao.GetGpuProduct(id));
+        return CreateProduct(gpuDao.GetGpuProduct(id));
     }
 
     public ProductModel GenerateListOfFilteredProducts(List<ParamBaseModel> param)
     {
-        var gpuFilterParams = GpuCastManager.CastToGpuFilterParams(param);
-        var allGpus = GpuDao.GetGpuProductSnapshots().ToList();
-        var filteredGpus = GpuFilterManager.FilterOutProducts(gpuFilterParams, allGpus);
+        var gpuFilterParams = gpuCastManager.CastToGpuFilterParams(param);
+        var allGpus = gpuDao.GetGpuProductSnapshots().ToList();
+        var filteredGpus = gpuFilterManager.FilterOutProducts(gpuFilterParams, allGpus);
 
         return new ProductModel
         {
             Products = CreateListOfProducts(filteredGpus.Cast<object>().ToList()),
             Controller = "Gpu"
         };
+    }
+
+    public void SaveProduct(ProductModel model)
+    {
+        var gpu = gpuCastManager.CastProductModelToCooler(model);
+
+        gpuDao.SaveProduct(gpu);
+    }
+
+    public void AddNewProduct(ProductModel model)
+    {
+        var gpu = gpuCastManager.CastProductModelToCooler(model);
+
+        gpuDao.AddNew(gpu);
+    }
+
+    public void Delete(int id)
+    {
+        gpuDao.Delete(id);
     }
 }

@@ -23,7 +23,7 @@ stages:
             displayName: Installing SDK
             inputs:
               packageType: 'sdk'
-              version: '8.0.x'
+              version: '9.0.x'
           - task: NuGetCommand@2
             displayName: 'Restoring nugets'
             inputs:
@@ -36,9 +36,10 @@ stages:
               command: 'build'
               arguments: '--configuration Release'
           - task: DotNetCoreCLI@2
-            displayName: 'Testing'
+            displayName: 'Testing and Code Coverage'
             inputs:
               command: 'test'
+              
           - task: DotNetCoreCLI@2
             condition: and(succeeded(), eq('${{ parameters.Target }}', 'Release'))
             displayName: Preparing code for publish
@@ -47,14 +48,12 @@ stages:
               publishWebProjects: true
               arguments: '--no-build --configuration Release'
           - task: PublishPipelineArtifact@1
+            condition: and(succeeded(), eq('${{ parameters.Target }}', 'Release'))
             displayName: Publishing
             inputs:
               targetPath: '$(Pipeline.Workspace)'
               artifact: 'ProGamingParts'
               publishLocation: 'pipeline'
-          - task: PublishCodeCoverageResults@2
-            inputs:
-              summaryFileLocation: '$(System.DefaultWorkingDirectory)'
 
   - stage: Release
     condition: and(succeeded(), eq('${{ parameters.Target }}', 'Release'))
@@ -68,11 +67,13 @@ stages:
               buildType: 'current'
               artifactName: 'ProGamingParts'
               targetPath: '$(Pipeline.Workspace)'
-          - task: AzureWebApp@1
-            displayName: Releasing
+          - task: AzureRmWebAppDeployment@4
             inputs:
-              azureSubscription: 'Azure subscription 1(98528af0-41e4-4e55-823c-9f9d268da483)'
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'PGPHolyServiceConn'
               appType: 'webApp'
-              appName: 'GoodStuff'
-              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-              deploymentMethod: 'auto'
+              WebAppName: 'ProGamingParts'
+              deployToSlotOrASE: true
+              ResourceGroupName: 'HolyCompanyMainRG'
+              SlotName: 'production'
+              packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'

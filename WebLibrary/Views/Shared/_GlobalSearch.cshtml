@@ -1,0 +1,10 @@
+﻿@model List<Model.DataTransfer.MatchedProductDto>
+
+@{
+    foreach (var productDto in Model)
+    {
+        <a href="@Url.ActionLink("Product", "Product", new { type = productDto.TableName, produtId = productDto.ProductId })">
+            <li class="list-group-item">@productDto.Name</li>
+        </a>
+    }
+}

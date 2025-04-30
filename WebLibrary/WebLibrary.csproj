@@ -1,21 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
+    <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <TypeScriptTarget>ES6</TypeScriptTarget>
+      <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    </PropertyGroup>
+
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <StartupObject>WebLibrary.Program</StartupObject>
         <Nullable>enable</Nullable>
         <UserSecretsId>938d8ed4-1148-469f-884a-23d563bf6c78</UserSecretsId>
-        <LangVersion>12</LangVersion>
+        <LangVersion>13</LangVersion>
         <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.3" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Identity.Web" Version="3.5.0" />
+        <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.5.0" />
+        <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="3.5.0" />
+        <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.5.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
         <ProjectReference Include="..\Model\Model.csproj" />
     </ItemGroup>
 
@@ -23,15 +36,6 @@
       <EmbeddedResource Include="appsettings.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
-        <TypeScriptCompile Include="wwwroot\ts\Cart.ts" />
-        <TypeScriptCompile Include="wwwroot\ts\GpuFilter.ts" />
-        <TypeScriptCompile Include="wwwroot\ts\Login.ts" />
-        <TypeScriptCompile Include="wwwroot\ts\Registration.ts" />
-        <TypeScriptCompile Include="wwwroot\ts\User.ts" />
-        <TypeScriptCompile Include="wwwroot\ts\CpuFilter.ts" />
     </ItemGroup>
 
     <ItemGroup>

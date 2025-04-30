@@ -1,54 +1,63 @@
-﻿using DataAccess.DAO.Interfaces;
-using Model.Cpu;
-using Model.General;
+﻿using Model.DataAccess.Interfaces;
+using Model.DataTransfer;
+using Model.Models.General;
 using Model.Services.Categories.CastManagers.Interfaces;
 using Model.Services.Categories.FilterManagers.Interfaces;
 using Model.Services.Categories.Interfaces;
+using Model.Services.General;
 
 namespace Model.Services.Categories;
 
-public class CpuService : BaseService, ICpuService
+public class CpuService(ICpuFilterManager cpuFilterManager, ICpuDao cpuDao, ICpuCastManager cpuCastManager) : BaseCategoryService, ICategoryService
 {
-    public CpuService(ICpuFilterManager cpuFilterManager, ICpuDao cpuDao, ICpuCastManager cpuCastManager)
-    {
-        CpuFilterManager = cpuFilterManager;
-        CpuDao = cpuDao;
-        CpuCastManager = cpuCastManager;
-    }
-
-    private ICpuFilterManager CpuFilterManager { get; }
-    private ICpuDao CpuDao { get; }
-    private ICpuCastManager CpuCastManager { get; }
-
     public ProductModel ReturnModel()
     {
-        var cpuProductSnapshots = CpuDao.GetCpuProductSnapshots().Cast<object>().ToList();
-        var cpuFiltersDtos = CpuDao.CreateFilterParametersList();
+        var cpuProductSnapshots = cpuDao.GetCpuProductSnapshots().Cast<object>().ToList();
+        var cpuFiltersDtoList = cpuDao.CreateFilterParametersList();
 
         return new ProductModel
         {
             Products = CreateListOfProducts(cpuProductSnapshots),
-            FilterParametersList = CpuFilterManager.CreateFilterParametersList(cpuFiltersDtos),
+            FilterParametersList = cpuFilterManager.CreateFilterParametersList(cpuFiltersDtoList),
             Controller = "Cpu",
-            FilterParameterListTemplate = CpuCastManager.CastToJsonFormat(new CpuFilterParams())
+            FilterParameterListTemplate = cpuCastManager.CastToJsonFormat(new CpuFiltersDto())
         };
     }
 
     public ProductModel GetProduct(int id)
     {
-        return CreateProduct(CpuDao.GetCpuProduct(id));
+        return CreateProduct(cpuDao.GetCpuProduct(id));
     }
 
     public ProductModel GenerateListOfFilteredProducts(List<ParamBaseModel> param)
     {
-        var cpuFilterParams = CpuCastManager.CastToCpuFilterParams(param);
-        var allCpus = CpuDao.GetCpuProductSnapshots().ToList();
-        var filteredCpus = CpuFilterManager.FilterOutProducts(cpuFilterParams, allCpus);
+        var cpuFilterParams = cpuCastManager.CastToCpuFilterParams(param);
+        var allCpus = cpuDao.GetCpuProductSnapshots().ToList();
+        var filteredCpus = cpuFilterManager.FilterOutProducts(cpuFilterParams, allCpus);
 
         return new ProductModel
         {
             Controller = "Cpu",
-            Products = CreateListOfProducts(filteredCpus.Cast<object>().ToList())
+            Products = CreateListOfProducts(filteredCpus.Cast<object>().ToList()),
         };
+    }
+
+    public void SaveProduct(ProductModel model)
+    {
+        var cpu = cpuCastManager.CastProductModelToCooler(model);
+
+        cpuDao.SaveProduct(cpu);
+    }
+
+    public void AddNewProduct(ProductModel model)
+    {
+        var cpu = cpuCastManager.CastProductModelToCooler(model);
+
+        cpuDao.AddNew(cpu);
+    }
+
+    public void Delete(int id)
+    {
+        cpuDao.Delete(id);
     }
 }

@@ -7,7 +7,7 @@
 
 <div class="alert alert-success col-3 position-absolute mt-5" hidden id="registrationSuccessMsg" role="alert">
     <h4 class="alert-heading">Gratulacje, rejestracja przebiegla poprawnie!</h4>
-    <p>Za chwile zostaniesz przekierowany na strone glowna uzytkownika.</p>
+    <p>Na maila dostaniesz link aktywujący konto.</p>
     <hr>
     <p class="mb-0">Witamy w gronie WebLibrary <i class="fab fa-angellist"></i></p>
 </div>
@@ -17,6 +17,7 @@
         <h4 class="p-4 border-bottom" style="margin-bottom: unset">Rejestracja</h4>
         <div class="row">
             <form class="p-2 col-6 border-right" id="registrationForm">
+                @Html.AntiForgeryToken()
                 <div class="form-group m-2">
                     <label>Imie</label>
                     <input type="text" name="name" id="name" class="form-control" required/>
@@ -76,7 +77,7 @@
         </div>
     </div>
 </div>
-<script src="~/js/Registration.js"></script>
+<script src="~/js/User/Registration.js"></script>
 <script type="text/javascript">
     $(function (){const registration = new Registration(); });
 </script>

@@ -1,31 +1,133 @@
-﻿<h2 class="font-weight-light ml-1 ">Ustawienia</h2>
+﻿@model Model.DataTransfer.UserDto
+
+<h2 class="font-weight-light ml-1 ">Ustawienia</h2>
 
 <div class="container p-0 col-lg-12 col-md-10 h-100">
     <div class="justify-content-center col-12 align-items-center">
         <div class="row">
-            <form id="registrationForm">
-                <div class="form-group m-2">
+            <form id="userSettingsForm" autocomplete="off">
+                <h5 class="ml-1 mt-3 font-weight-light">Podstawowe dane</h5>
+                <div class="form-group m-1 mt-3">
                     <label>Imie</label>
-                    <input type="text" name="name" id="name" class="form-control" required />
-                    <span class="text-danger " id="nameErrorMsg"></span>
+                    <span class="btn btn-sm btn-outline-primary font-weight-bold" id="editNameAndSurnameSetting">Edytuj</span>
+                    <span class="btn btn-sm btn-success font-weight-bold" hidden id="saveNameAndSurnameSetting">Zapisz</span>
+                    <input type="text" value="@Model.Name" name="name" id="name" class="form-control" required disabled="disabled"/>
                 </div>
-                <div class="form-group m-2">
+                <div class="form-group m-1">
                     <label>Nazwisko</label>
-                    <input type="text" name="surname" id="surname" class="form-control" required />
-                    <span class="text-danger " id="surnameErrorMsg"></span>
+                    <input type="text" value="@Model.Surname" name="surname" id="surname" class="form-control" required disabled="disabled"/>
+                    <span class="text-danger font-weight-bold" id="nameAndSurnameErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="nameAndSurnameSuccessMsg"></span>
                 </div>
-                <div class="form-group m-2">
-                    <label>Email</label>
-                    <input type="email" name="email" id="email" class="form-control " required />
-                    <span class="text-danger " id="emailErrorMsg"></span>
+                <div class="form-group m-1">
+                    <label>
+                        Email
+                        <span class="btn btn-sm btn-outline-primary font-weight-bold" id="editEmailSetting">Edytuj</span>
+                        <span class="btn btn-sm btn-success font-weight-bold" hidden id="saveEmailSetting">Zapisz</span>
+                    </label>
+                    <input type="email" value="@Model.Email" name="email" id="email" class="form-control " required disabled="disabled"/>
+                    <span class="text-danger font-weight-bold" id="emailErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="emailSuccessMsg"></span>
                 </div>
-
-                <div class="form-group m-2">
-                    <label>Haslo</label>
-                    <input type="password" name="password" id="password" class="form-control" required />
-                    <span class="text-danger " id="passwordErrorMsg"></span>
+                <div class="form-group m-1">
+                    <label>
+                        Nowe haslo
+                        <span class="btn btn-sm btn-outline-primary font-weight-bold" id="editPasswordSetting">Edytuj</span>
+                        <span class="btn btn-sm btn-success font-weight-bold" hidden id="savePasswordSetting">Zapisz</span>
+                    </label>
+                    <input type="password" name="password" id="password" class="form-control" required disabled="disabled"/>
+                    <span class="text-danger font-weight-bold" id="passwordErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="passwordSuccessMsg"></span>
+                </div>
+                <div class="form-group m-1">
+                    <label>Jeszcze raz nowe haslo</label>
+                    <input type="password" name="password" id="password2" class="form-control" required disabled="disabled"/>
                 </div>
             </form>
+            <form id="userDeliveryAddressForm" class="ml-5" autocomplete="off">
+                @Html.AntiForgeryToken()
+                <h5 class="ml-1 mt-3 font-weight-light">Dane do zamówienia</h5>
+
+                <div class="form-group m-1 mt-3">
+                    <label>Imię</label>
+                    <input type="text" name="deliveryName" value="@Model.DeliveryAddress?.Name" id="deliveryName" class="form-control" required disabled="disabled" />
+                    <span class="text-danger font-weight-bold" id="deliveryNameErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="deliveryNameSuccessMsg"></span>
+                </div>
+
+                <div class="form-group m-1">
+                    <label>Nazwisko</label>
+                    <input type="text" name="deliverySurname" value="@Model.DeliveryAddress?.Surname" id="deliverySurname" class="form-control" required disabled="disabled" />
+                    <span class="text-danger font-weight-bold" id="deliverySurnameErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="deliverySurnameSuccessMsg"></span>
+                </div>
+
+                <div class="form-group m-1">
+                    <label>Adres Email</label>
+                    <input type="email" name="deliveryEmail" value="@Model.DeliveryAddress?.Email" id="deliveryEmail" class="form-control" required disabled="disabled" />
+                    <span class="text-danger font-weight-bold" id="deliveryEmailErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="deliveryEmailSuccessMsg"></span>
+                </div>
+
+                <div class="form-group m-1">
+                    <label>Miasto</label>
+                    <input type="text" name="deliveryCity" value="@Model.DeliveryAddress?.City" id="deliveryCity" class="form-control" required disabled="disabled" />
+                    <span class="text-danger font-weight-bold" id="deliveryCityErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="deliveryCitySuccessMsg"></span>
+                </div>
+
+                <div class="form-group m-1">
+                    <label>Kod Pocztowy</label>
+                    <input type="text" name="deliveryPostalCode" value="@Model.DeliveryAddress?.PostalCode" id="deliveryPostalCode" class="form-control" required disabled="disabled" />
+                    <span class="text-danger font-weight-bold" id="deliveryPostalCodeErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="deliveryPostalCodeSuccessMsg"></span>
+                </div>
+
+                <div class="form-group m-1">
+                    <label>Ulica</label>
+                    <input type="text" name="deliveryStreet" value="@Model.DeliveryAddress?.Street" id="deliveryStreet" class="form-control" required disabled="disabled" />
+                    <span class="text-danger font-weight-bold" id="deliveryStreetErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="deliveryStreetSuccessMsg"></span>
+                </div>
+
+                <div class="form-group m-1">
+                    <label>Nr Bloku</label>
+                    <input type="text" name="deliveryBlockNumber" value="@Model.DeliveryAddress?.BlockNumber" id="deliveryBlockNumber" class="form-control" required disabled="disabled" />
+                    <span class="text-danger font-weight-bold" id="deliveryBlockNumberErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="deliveryBlockNumberSuccessMsg"></span>
+                </div>
+
+                <div class="form-group m-1">
+                    <label>Nr Mieszkania</label>
+                    <input type="text" name="deliveryApartmentNumber" value="@Model.DeliveryAddress?.ApartmentNumber" id="deliveryApartmentNumber" class="form-control" required disabled="disabled" />
+                    <span class="text-danger font-weight-bold" id="deliveryApartmentNumberErrorMsg"></span>
+                    <span class="text-success font-weight-bold" id="deliveryApartmentNumberSuccessMsg"></span>
+                </div>
+
+                <div class="form-group m-1">
+                    <span class="btn btn-sm btn-outline-primary font-weight-bold" id="editDeliverySetting">Edytuj</span>
+                    <span class="btn btn-sm btn-success font-weight-bold" hidden id="saveDeliverySetting">Zapisz</span>
+                    <span class="text-success font-weight-bold" id="deliverySaveSuccess"></span>
+
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#editNameAndSurnameSetting").on("click", EditNameAndSurnameSetting);
+        $("#saveNameAndSurnameSetting").on("click", SaveNameAndSurnameSetting);
+
+        $("#editEmailSetting").on("click", EditEmailSetting);
+        $("#saveEmailSetting").on("click", SaveEmailSetting);
+
+        $("#editPasswordSetting").on("click", EditPasswordSetting);
+        $("#savePasswordSetting").on("click", SavePasswordSetting);
+
+        $("#editDeliverySetting").on("click", EditDeliveryAddressSetting);
+        $("#saveDeliverySetting").on("click", SaveDeliveryAddress);
+    });
+</script>

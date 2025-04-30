@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Model.Cart.CartModel
+﻿@model Model.Models.Cart.CartModel
 @{
     var totalCost = 0;
 }
@@ -42,45 +41,46 @@
                 <div style="height: 70vh" class="justify-content-center  mb-auto col-10 align-items-center">
                     <h4 class="py-3 border-bottom">Dane</h4>
                     <form id="userDataForm">
+                        @Html.AntiForgeryToken()
                         <div class="row">
                             <div class="form-group m-2">
                                 <label for="name">Imię</label>
-                                <input type="text" name="name" id="name" class="form-control" required/>
+                                <input type="text" name="name" value="@Model.DeliveryAddress.?Name" id="name" class="form-control" required />
                                 <span class="text-danger" id="nameErrorMsg"></span>
                             </div>
                             <div class="form-group m-2">
                                 <label for="surname">Nazwisko</label>
-                                <input type="text" name="surname" id="surname" class="form-control" required/>
+                                <input type="text" name="surname" value="@Model.DeliveryAddress.?Surname" id="surname" class="form-control" required />
                                 <span class="text-danger" id="surnameErrorMsg"></span>
                             </div>
                             <div class="form-group m-2">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" required/>
+                                <input type="email" name="email" value="@Model.DeliveryAddress.?Email" id="email" class="form-control" required />
                                 <span class="text-danger" id="emailErrorMsg"></span>
                             </div>
                             <div class="form-group m-2">
                                 <label for="city">Miasto</label>
-                                <input type="text" name="city" id="city" class="form-control" required/>
+                                <input type="text" name="city" id="city" value="@Model.DeliveryAddress.?City" class="form-control" required />
                                 <span class="text-danger" id="cityErrorMsg"></span>
                             </div>
                             <div class="form-group m-2">
                                 <label for="postalCode">Kod Pocztowy</label>
-                                <input type="text" pattern="[0-9]{5}" name="postalCode" id="postalCode" class="form-control" required/>
+                                <input type="text" pattern="[0-9]{5}" value="@Model.DeliveryAddress.?PostalCode" name="postalCode" id="postalCode" class="form-control" required />
                                 <span class="text-danger" id="postalCodeErrorMsg"></span>
                             </div>
                             <div class="form-group m-2">
                                 <label for="street">Ulica</label>
-                                <input type="text" name="street" id="street" class="form-control" pattern="[0-9]{2}-[0-9]{3}" required/>
+                                <input type="text" name="street" id="street" value="@Model.DeliveryAddress.?Street" class="form-control" pattern="[0-9]{2}-[0-9]{3}" required />
                                 <span class="text-danger" id="streetErrorMsg"></span>
                             </div>
                             <div class="form-group m-2">
                                 <label for="block">Numer Bloku</label>
-                                <input type="text" name="block" id="block" class="form-control" required/>
+                                <input type="text" name="block" id="block" value="@Model.DeliveryAddress.?BlockNumber" class="form-control" required />
                                 <span class="text-danger" id="blockErrorMsg"></span>
                             </div>
                             <div class="form-group m-2">
                                 <label for="flat">Numer Mieszkania</label>
-                                <input type="text" name="flat" id="flat" class="form-control" required/>
+                                <input type="text" name="flat" value="@Model.DeliveryAddress.?ApartmentNumber" id="flat" class="form-control" required />
                                 <span class="text-danger" id="flatErrorMsg"></span>
                             </div>
                         </div>
@@ -169,7 +169,7 @@
         </div>
     </div>
 </div>
-<script src="js/Order.js"></script>
+<script src="js/Cart/Order.js"></script>
 <script type="text/javascript">
     $(function (){const order = new Order(); });
 </script>

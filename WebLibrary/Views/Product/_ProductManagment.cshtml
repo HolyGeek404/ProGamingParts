@@ -1,0 +1,83 @@
+﻿@model Model.Models.General.ProductManagmentModel
+
+<h2 class="font-weight-light ml-1 ">Zarządzanie Produktami</h2>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#cpu">CPU</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#gpu">GPU</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#cooler">COOLER</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div id="cpu" class="container tab-pane active"><br>
+        <button class="addProduct" product-type="CPU" type="button" class="btn btn-success">Dodaj nowy</button>
+
+        <table id="cpuProductsTable" class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div id="gpu" class="container tab-pane fade"><br/>
+        <button class="addProduct" product-type="GPU" type="button" class="btn btn-success">Dodaj nowy</button>
+
+        <table id="gpuProductsTable" class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div id="cooler" class="container tab-pane fade"><br>
+        <button class="addProduct" product-type="COOLER" type="button" class="btn btn-success">Dodaj nowy</button>
+
+        <table id="coolerProductsTable" class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="producToEdit"></div>
+<div id="producToAdd"></div>
+
+<script type="text/javascript">
+    var products = @Json.Serialize(Model);
+
+    $(document).ready(function() {
+        CreateProductsTable(products);
+        $('tbody').on('click', '#editProduct', LoadProductToEdit);
+        $('tbody').on('click', '#deleteProduct', DeleteProduct);
+        $('.addProduct').on('click', LoadProductToAdd);
+
+    });
+
+</script>

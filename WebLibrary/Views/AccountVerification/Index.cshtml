@@ -1,0 +1,20 @@
+﻿@model bool
+
+@if (Model)
+{
+    <div class="alert alert-success col-3 position-absolute mt-5" id="registrationSuccessMsg" role="alert">
+        <h4 class="alert-heading">Gratulacje, aktywacja konta przebiegla poprawnie!</h4>
+        <p>Mozesz sie zalogowac na swoje konto.</p>
+        <hr>
+        <p class="mb-0">Witamy w gronie ProGamingParts <i class="fab fa-angellist"></i></p>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger col-3 position-absolute mt-5 hide" id="registrationFailMsg" role="alert">
+        <h4 class="alert-heading">O nie, cos poszlo nie tak!</h4>
+        <p>Nie mamy pojęcia co poszło nie tak, link jest generowany automatycznie.</p>
+        <hr>
+        <p class="mb-0">Zmieniałeś coś w linku? </p>
+    </div>
+}

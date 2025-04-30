@@ -1,157 +1,177 @@
-﻿@using Microsoft.AspNetCore.Http
-@using Microsoft.IdentityModel.Tokens
+@using Microsoft.AspNetCore.Http
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pro Gaming Parts</title>
-    <link rel="stylesheet" href="~/css/site.css"/>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 </head>
 <body class="m-0">
-<header>
-    <nav class="navbar bg-white shadow-sm p-0">
-        <div class="container col-12 justify-content-center">
-            <div class="col-2 m-1">
-                <a href="@Url.ActionLink("Index", "Home")">
-                    <img src="favicon.ico" width="54" height="54" alt="pgpIcon" style="margin-left: 105px; margin-top: 3px;" class="rounded"/>
-                    <div class="float-right">
-                        <h3 class="h3 m-0">Pro Gaming Parts</h3>
-                        <span class="text-muted text-sm-center font-italic font-weight-bold">by gamers, for gamers <i class="fa-solid fa-bag-shopping"></i> <i class="fa-solid fa-gamepad"></i></span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 d-flex justify-content-center">
-                <div class="input-group input-group-sm col-8">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm">
-                            <i class="fas fa-search"></i>
-                        </span>
-                    </div>
-                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Szukaj...">
-                </div>
-            </div>
-            <div class="col-2 float-right d-flex justify-content-around">
-                @if (!Context.Session.GetString("UserId").IsNullOrEmpty())
-                {
-                    <a href="@Url.ActionLink("Index", "User")">
-                        <div class="navbar-brand nav-item nav-icon" data-toggle="tooltip" data-placement="bottom" title="Moje konto">
-                            <h6 class="p-1">
-                              <i class="fa-solid fa-jedi"></i>
-                                @Context.Session.GetString("Name")
-                            </h6>
+    <header>
+        <nav class="navbar bg-white shadow-sm p-0">
+            <div class="container col-12 justify-content-center">
+                <div class="col-2 m-1">
+                    <a href="@Url.ActionLink("Index", "Home")">
+                        <img src="~/favicon.ico" width="54" height="54" alt="pgpIcon" style="margin-left: 105px; margin-top: 3px;" class="rounded" />
+                        <div class="float-right">
+                            <h3 class="h3 m-0">Pro Gaming Parts</h3>
+                            <span class="text-muted text-sm-center font-italic font-weight-bold">by gamers, for gamers <i class="fa-solid fa-bag-shopping"></i> <i class="fa-solid fa-gamepad"></i></span>
                         </div>
                     </a>
-                }
-                else
-                {
-                    <a href="@Url.ActionLink("LogIn", "User")">
-                        <div class="navbar-brand nav-item nav-icon" data-toggle="tooltip" data-placement="bottom" title="Zaloguj sie">
-                            <i class="fas fa-user"></i>
+                </div>
+                <div class="col-6 d-flex justify-content-center">
+                    <div class="input-group col-8">
+                        <div class="input-group-prepend" id="globalSearchButton">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        @Html.AntiForgeryToken()
+                        <input type="text" id="globalSearchInput" class="form-control" aria-describedby="inputGroup-sizing-sm" placeholder="Szukaj...">
+                        <ul class="list-group shadow-sm" id="globalSearchResult"></ul>
+                    </div>
+                </div>
+                <div class="col-2 float-right d-flex justify-content-around">
+                    @if (!string.IsNullOrEmpty(Context.Session.GetString("UserId")))
+                    {
+                        <a href="@Url.ActionLink("Index", "User")">
+                            <div class="navbar-brand nav-item nav-icon" data-toggle="tooltip" data-placement="bottom" title="Moje konto">
+                                <h6 class="p-1">
+                                    <i class="fa-solid fa-jedi"></i>
+                                    @Context.Session.GetString("Name")
+                                </h6>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.ActionLink("LogIn", "User")">
+                            <div class="navbar-brand nav-item nav-icon" data-toggle="tooltip" data-placement="bottom" title="Zaloguj sie">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </a>
+                    }
+                    <a href="@Url.ActionLink("Index", "Cart")">
+                        <div class="navbar-brand nav-item nav-icon" data-toggle="tooltip" data-placement="bottom" title="Koszyk">
+                            <i class="fas fa-shopping-cart"></i>
                         </div>
                     </a>
-                }
-                <a href="@Url.ActionLink("Index", "Cart")">
-                    <div class="navbar-brand nav-item nav-icon" data-toggle="tooltip" data-placement="bottom" title="Koszyk">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="container col-12 border justify-content-center bg-light ">
-            <div class="col-10 d-flex justify-content-center">
-                <div class="dropdown p-3 kategoria float-left">
-                    <span class="dropdown-toggle text-black-50 font-weight-bold p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">CPU</span>
-                    <div class="dropdown-menu">
-                        <a href="@Url.ActionLink("Index", "Cpu", new { team = "Intel" })">
-                            <span class="dropdown-item">Intel</span>
-                        </a>
-                        <a href="@Url.ActionLink("Index", "Cpu", new { team = "AMD" })">
-                            <span class="dropdown-item">AMD</span>
-                        </a>
-                        <a href="@Url.ActionLink("Index", "Cpu")">
-                            <span class="dropdown-item">Wszystkie</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="dropdown p-3 kategoria float-left">
-                    <span class="dropdown-toggle rounded text-black-50 font-weight-bold p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chlodzenie</span>
-                    <div class="dropdown-menu">
-                        <span class="dropdown-item">Wodne</span>
-                        <span class="dropdown-item">Powietrzne</span>
-                        <span class="dropdown-item">Wentylatory</span>
-                        <span class="dropdown-item">Wszystkie</span>
-                    </div>
-                </div>
-                <div class="dropdown p-3 kategoria float-left">
-                    <span class="dropdown-toggle rounded text-black-50 font-weight-bold p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Płyty główne</span>
-                    <div class="dropdown-menu">
-                        <span class="dropdown-item">Socket 1151</span>
-                        <span class="dropdown-item">Socket AM4</span>
-                        <span class="dropdown-item">Socket 2066</span>
-                        <span class="dropdown-item">Socket TR4</span>
-                        <span class="dropdown-item">Wszystkie</span>
-                    </div>
-                </div>
-                <div class="dropdown p-3 kategoria float-left">
-                    <span class="dropdown-toggle rounded text-black-50 font-weight-bold  p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">RAM</span>
-                    <div class="dropdown-menu">
-                        <span class="dropdown-item">DDR4 3200 MHz</span>
-                        <span class="dropdown-item">DDR4 3000 MHz</span>
-                        <span class="dropdown-item">DRR3 2400 MHz</span>
-                        <span class="dropdown-item">DRR3 2133 MHz</span>
-                        <span class="dropdown-item">Wszystkie</span>
-                    </div>
-                </div>
-                <div class="dropdown p-3 kategoria float-left">
-                    <span class="dropdown-toggle rounded text-black-50 font-weight-bold p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">GPU</span>
-                    <div class="dropdown-menu">
-                        <a href="@Url.ActionLink("Index", "Gpu", new { gpuManufacture = "AMD" })">
-                            <span class="dropdown-item">AMD</span>
-                        </a>
-                        <a href="@Url.ActionLink("Index", "Gpu", new { gpuManufacture = "Nvidia" })">
-                            <span class="dropdown-item">Nvidia</span>
-                        </a>
-                        <a href="@Url.ActionLink("Index", "Gpu")">
-                            <span class="dropdown-item">Wszystkie</span>
-                        </a>
-
-                    </div>
-                </div>
-                <div class="dropdown p-3 kategoria float-left">
-                    <span class="dropdown-toggle rounded text-black-50 font-weight-bold  p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dyski</span>
-                    <div class="dropdown-menu">
-                        <span class="dropdown-item">HDD</span>
-                        <span class="dropdown-item">SSD</span>
-                        <span class="dropdown-item">M.2</span>
-                        <span class="dropdown-item">Wszystkie</span>
-                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
-</header>
+            <div class="container col-12 border justify-content-center bg-light ">
+                <div class="col-10 d-flex justify-content-center">
+                    <div class="dropdown p-3 kategoria float-left">
+                        <span class="dropdown-toggle text-black-50 font-weight-bold p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">CPU</span>
+                        <div class="dropdown-menu">
+                            <a href="@Url.ActionLink("Index", "Product", new { type = "cpu", teamQuickFilter = "Intel"})">
+                                <span class="dropdown-item">Intel</span>
+                            </a>
+                            <a href="@Url.ActionLink("Index", "Product", new { type = "cpu", teamQuickFilter = "AMD" })">
+                                <span class="dropdown-item">AMD</span>
+                            </a>
+                            <a href="@Url.ActionLink("Index", "Product", new { type = "cpu"})">
+                                <span class="dropdown-item">Wszystkie</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown p-3 kategoria float-left">
+                        <span class="dropdown-toggle rounded text-black-50 font-weight-bold p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chlodzenie</span>
+                        <div class="dropdown-menu">
+                            <a href="@Url.ActionLink("Index", "Product", new { type = "cooler", teamQuickFilter = "Wodne"})">
+                                <span class="dropdown-item">Wodne</span>
+                            </a>
+                            <a href="@Url.ActionLink("Index", "Product", new { type = "cooler", teamQuickFilter = "Powietrzne"})">
+                                <span class="dropdown-item">Powietrzne</span>
+                            </a>
+                            <a href="@Url.ActionLink("Index", "Product", new { type = "cooler"})">
+                                <span class="dropdown-item">Wszystkie</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown p-3 kategoria float-left">
+                        <span class="dropdown-toggle rounded text-black-50 font-weight-bold p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Płyty główne</span>
+                        <div class="dropdown-menu">
+                            <span class="dropdown-item">Socket 1151</span>
+                            <span class="dropdown-item">Socket AM4</span>
+                            <span class="dropdown-item">Socket 2066</span>
+                            <span class="dropdown-item">Socket TR4</span>
+                            <span class="dropdown-item">Wszystkie</span>
+                        </div>
+                    </div>
+                    <div class="dropdown p-3 kategoria float-left">
+                        <span class="dropdown-toggle rounded text-black-50 font-weight-bold  p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">RAM</span>
+                        <div class="dropdown-menu">
+                            <span class="dropdown-item">DDR4 3200 MHz</span>
+                            <span class="dropdown-item">DDR4 3000 MHz</span>
+                            <span class="dropdown-item">DRR3 2400 MHz</span>
+                            <span class="dropdown-item">DRR3 2133 MHz</span>
+                            <span class="dropdown-item">Wszystkie</span>
+                        </div>
+                    </div>
+                    <div class="dropdown p-3 kategoria float-left">
+                        <span class="dropdown-toggle rounded text-black-50 font-weight-bold p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">GPU</span>
+                        <div class="dropdown-menu">
+                            <a href="@Url.ActionLink("Index", "Product", new {  type = "gpu", teamQuickFilter = "AMD" })">
+                                <span class="dropdown-item">AMD</span>
+                            </a>
+                            <a href="@Url.ActionLink("Index", "Product", new {  type = "gpu", teamQuickFilter = "Nvidia" })">
+                                <span class="dropdown-item">Nvidia</span>
+                            </a>
+                            <a href="@Url.ActionLink("Index", "Product",  new { type = "gpu", })">
+                                <span class="dropdown-item">Wszystkie</span>
+                            </a>
 
-<div class="container col-12 m-0 p-0 d-flex justify-content-center">
-    <main role="main" class="col-12">
-        @RenderBody()
-    </main>
-</div>
+                        </div>
+                    </div>
+                    <div class="dropdown p-3 kategoria float-left">
+                        <span class="dropdown-toggle rounded text-black-50 font-weight-bold  p-2  small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dyski</span>
+                        <div class="dropdown-menu">
+                            <span class="dropdown-item">HDD</span>
+                            <span class="dropdown-item">SSD</span>
+                            <span class="dropdown-item">M.2</span>
+                            <span class="dropdown-item">Wszystkie</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
+    <div class="container col-12 m-0 p-0 d-flex justify-content-center">
+        <main role="main" class="col-12">
+            @RenderBody()
+        </main>
+    </div>
 
-@RenderSection("Scripts", false)
-
-<style>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
         a {
             color: unset;
             text-decoration: none !important;
         }
-</style>
+
+        #globalSearchResult {
+            position: absolute;
+            z-index: 999;
+            margin-top: 30px;
+        }
+    </style>
+    <script src="js/Home/Home.js"></script>
+    <script type="text/javascript">
+        $("#globalSearchButton").on("click", search);
+        $("#globalSearchInput").on("keypress",
+            function(event) {
+                if (event.which === 13) {
+                    search();
+                }
+            });
+    </script>
 </body>
 </html>

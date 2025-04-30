@@ -1,11 +1,9 @@
-﻿using DataAccess.DTO;
-using Model.General;
+﻿using Model.DataTransfer;
 
 namespace Model.Services.Interfaces;
 
 public interface IOrderService
 {
-    void PrepareOrder(PrepareOrderModel model);
-    void CreateOrder(int productId, string id);
-    Dictionary<int,List<OrdersBaseInfoDto>> GetOrdersBaseInfoModel(string userId);
+    Dictionary<int, List<OrdersBaseInfoDto>> GetOrdersBaseInfoModel(int userId);
+    List<OrdersBaseInfoDto> GetOrdersBaseInfoModelJson(int userId);
 }

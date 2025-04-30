@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DataAccess.DTO;
-using Model.Services;
+using Model.DataTransfer;
+using Model.Services.General;
 using NUnit.Framework;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
@@ -10,19 +10,19 @@ namespace Model.Test.Services;
 [TestFixture]
 public class BaseServiceTest
 {
+    private BaseCategoryService _baseService;
+
     [SetUp]
     public void SetUp()
     {
-        _baseService = new BaseService();
+        _baseService = new BaseCategoryService();
     }
-
-    private BaseService _baseService;
 
     [Test]
     public void ShouldCreateProductsList()
     {
         //Arr
-        var gpuProductList = new List<GpuProductDto>
+        var gpuProductList = new List<GpuDto>
         {
             new() { Name = "FirstGpu", Team = "AMD" },
             new() { Name = "SecondGpu", Team = "Nvidia" }
@@ -53,13 +53,13 @@ public class BaseServiceTest
     public void ShouldCreateProduct()
     {
         //Arr
-        var gpuProductDto = new GpuProductDto
+        var gpuProductDto = new GpuDto
         {
             Manufacturer = "AMD",
             Name = "RX 5600XT",
             Price = "2650"
         };
-        var cpuProductDto = new CpuProductDto
+        var cpuProductDto = new CpuDto
         {
             Architecture = "Zen 2",
             Name = "AMD Ryzen 7 2700",

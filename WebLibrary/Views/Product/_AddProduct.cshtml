@@ -1,0 +1,37 @@
+﻿@model Model.Models.General.ProductModel
+
+
+<form id="addProductForm">
+    @foreach (var parameter in Model.AllParameters)
+    {
+
+        <div class="form-group">
+            <label for="@parameter.Key">@parameter.Key</label>
+
+            @switch (@parameter.Key)
+            {
+                case "Type":
+                    @:<input type="text" class="form-control" readonly name="@parameter.Key" value="@parameter.Value">
+                    break;
+                case "ProductId":
+                    @:<input type="text" class="form-control" readonly name="@parameter.Key" value="0"> 
+                    break;
+                case "ProductImg":
+                    @:<input type="text" class="form-control" readonly name="@parameter.Key" value="~/defaultProductImg.jpg">
+                    break;
+                default:
+                    @:<input type="text" class="form-control" name="@parameter.Key" value="TEST"> 
+                    break;
+            }
+        </div>
+    }
+    <button id="addProduct" product-type="@Model.AllParameters["Type"]" type="button" class="btn btn-success">Dodaj</button>
+</form>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#addProduct').on('click', AddProduct);
+    });
+</script>

@@ -2,6 +2,10 @@
   "dependencies": {
     "mssql1": {
       "type": "mssql"
+    },
+    "identityapp1": {
+      "type": "identityapp",
+      "connectionId": "AzureAD:ClientSecret"
     }
   }
 }

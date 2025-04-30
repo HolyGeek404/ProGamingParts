@@ -1,4 +1,4 @@
-﻿using Model.General;
+﻿using Model.Models.General;
 
 namespace Model.Services.Categories.Interfaces;
 

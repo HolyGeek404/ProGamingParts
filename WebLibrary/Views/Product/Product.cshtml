@@ -1,14 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Http
-@using Microsoft.IdentityModel.Tokens
-@model Model.General.ProductModel
+@model Model.Models.General.ProductModel
 
 @{
     var name = Model.AllParameters.First(x => x.Key == "Name").Value;
     var productImg = Model.AllParameters.First(x => x.Key == "ProductImg").Value;
     var productId = Model.AllParameters.First(x => x.Key == "ProductId").Value;
+    var type = Model.AllParameters.First(x => x.Key == "Type").Value;
 
     Model.AllParameters.Remove("ProductId");
     Model.AllParameters.Remove("ProductImg");
+    Model.AllParameters.Remove("Type");
 }
 <div class="col-12">
     <div class="row d-flex justify-content-center">
@@ -35,7 +36,8 @@
             <div class="col-lg-6 col-sm-12  mx-auto float-left text-center">
                 <div class="col-12 d-flex justify-content-center">
                     <input type="hidden" id="ProductId" value="@productId"/>
-                    @if (!Context.Session.GetString("UserId").IsNullOrEmpty())
+                    <input type="hidden" id="Type" value="@type"/>
+                    @if (!string.IsNullOrEmpty(Context.Session.GetString("UserId")))
                     {
                         <span id="AddToCart" class="rounded border-0 m-1 bg-success add-to-cart p-1 float-right text-white">Dodaj do koszyka</span>
                         @:<input type="hidden" id="UserId" value="@Context.Session.GetString("UserId")"/>
@@ -64,7 +66,7 @@
         </div>
     </div>
 </div>
-<script src="~/js/Cart.js"></script>
+<script src="~/js/Cart/Cart.js"></script>
 <script type="text/javascript">
     $(function (){new Cart(); });
 </script>

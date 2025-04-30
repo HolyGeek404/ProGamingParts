@@ -1,0 +1,30 @@
+﻿@model Model.Models.General.ProductModel
+
+
+<form id="productForm">
+    @foreach (var parameter in Model.AllParameters)
+    {
+
+        <div class="form-group">
+            <label for="@parameter.Key">@parameter.Key</label>
+
+            @if (@parameter.Key.Equals("ProductId") || @parameter.Key.Equals("ProductImg") || @parameter.Key.Equals("Type"))
+            {
+                <input type="text" class="form-control" readonly name="@parameter.Key" value="@parameter.Value">
+            }
+            else
+            {
+                <input type="text" class="form-control" name="@parameter.Key" value="@parameter.Value">
+            }
+        </div>
+    }
+    <button id="saveProduct" product-type="@Model.AllParameters["Type"]" type="button" class="btn btn-primary">Zapisz</button>
+</form>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#saveProduct').on('click', SaveProduct);
+    });
+</script>

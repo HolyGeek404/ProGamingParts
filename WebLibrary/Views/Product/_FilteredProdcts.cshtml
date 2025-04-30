@@ -1,8 +1,8 @@
-﻿@model Model.General.ProductModel
+﻿@model Model.Models.General.ProductModel
 
 @foreach (var productParameters in Model.Products)
 {
-    <a href="@Url.ActionLink("GetProduct", Model.Controller, new { id = productParameters["ProductId"] })">
+    <a href="/Product/@Model.Controller/@productParameters["ProductId"]">
         <div class="col-lg-10 col-8 rounded border-bottom m-2" style="height: 400px; width: 450px;">
             <div class="col-12 p-0 m-0">
                 <img src="@productParameters["ProductImg"]" width="230" height="200" alt="ProductImg"/>

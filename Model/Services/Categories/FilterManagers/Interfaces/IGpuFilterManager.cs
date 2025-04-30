@@ -1,10 +1,9 @@
-﻿using DataAccess.DTO;
-using Model.Gpu;
+﻿using Model.DataTransfer;
 
 namespace Model.Services.Categories.FilterManagers.Interfaces;
 
 public interface IGpuFilterManager
 {
-    List<Dictionary<string, List<string>>> CreateFilterParametersList(List<GpuFiltersDto> gpusFiltersDtos);
-    List<GpuProductDto> FilterOutProducts(GpuFilterParamsModel paramModel, List<GpuProductDto> gpuSnapshotDtos);
+    List<Dictionary<string, List<string>>> CreateFilterParametersList(GpuFiltersDto gpusFiltersDtos);
+    List<GpuDto> FilterOutProducts(GpuFiltersDto paramModel, List<GpuDto> gpuSnapshotDtos);
 }

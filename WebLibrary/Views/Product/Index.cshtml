@@ -1,13 +1,13 @@
-﻿@model Model.General.ProductModel
+﻿@model Model.Models.General.ProductModel
 
-<h4 class="p-2 m-0 ">Karty Graficzne</h4>
+<h4 class="p-2 m-0 ">@Model.Controller</h4>
 <div class="col-2 sticky-top p-0 m-0 float-left">
     <div class="col-10 border-top rounded border-right p-0 m-0">
-        <div class="p-2">
-            <span class="h6 d-block">Cena</span>
-            <input type="number" class="col-4 p-0 m-0 border rounded text-center"/> - <input type="number" class="col-4 p-0 m-0 border rounded text-center"/>
-        </div>
         <form id="filterForm">
+            <div class="p-2">
+                <span class="h6 d-block">Cena</span>
+                <input name="PriceMin" type="number" class="col-4 p-0 m-0 border rounded text-center" /> - <input name="PriceMax" type="number" class="col-4 p-0 m-0 border rounded text-center" />
+            </div>
             @{
                 @foreach (var valuesOfParam in Model.FilterParametersList.SelectMany(param => param))
                 {
@@ -15,15 +15,16 @@
                         <div class="p-2">
                             <span class="h6 d-block">@valuesOfParam.Key</span>
 
-                            @foreach (var idk in valuesOfParam.Value.Where( x => !string.IsNullOrWhiteSpace(x)))
+                            @foreach (var idk in valuesOfParam.Value.Where(x => !string.IsNullOrWhiteSpace(x)))
                             {
                                 <label class="d-block m-0">
-                                    <input type="checkbox" class="filter-data" name="@valuesOfParam.Key" value="@idk" data-filter-type="@valuesOfParam.Key"/><span class="p-1">@idk</span>
+                                    <input type="checkbox" class="filter-data" name="@valuesOfParam.Key" value="@idk" data-filter-type="@valuesOfParam.Key" /><span class="p-1">@idk</span>
                                 </label>
                             }
 
                         </div>
                     </fieldset>
+
                 }
             }
         </form>
@@ -37,10 +38,10 @@
 <div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center" id="products">
     @foreach (var productParameters in Model.Products)
     {
-        <a href="@Url.ActionLink("GetProduct", Model.Controller, new { id = productParameters["ProductId"] })">
+        <a href="/Product/@Model.Controller/@productParameters["ProductId"]">
             <div class="col-lg-10 col-8 shadow-sm rounded m-2" style="height: 400px; width: 450px;">
                 <div class="col-12 p-0 m-1">
-                    <img src="@productParameters["ProductImg"]" width="230" height="200" alt="ProductImg"/>
+                    <img src="@productParameters["ProductImg"]" width="230" height="200" alt="ProductImg" />
                 </div>
                 <div class="col-12 text p-0 m-0">
                     <h6>@productParameters["Name"]</h6>
@@ -64,13 +65,18 @@
     switch (Model.Controller)
     {
         case "Cpu":
-            <script src="~/js/CpuFilter.js"></script>
-            <script>$(function () { new CpuFilter("@Model.QuickFilter"); });</script>
+            <script src="~/js/Categories/CpuFilter.js"></script>
+            <script>$(function () { new CpuFilter("@Model.QuickFilter", "@Model.Controller"); });</script>
             break;
         case "Gpu":
-            <script src="~/js/GpuFilter.js"></script>
-            <script>$(function () { new GpuFilter("@Model.QuickFilter"); });</script>
+            <script src="~/js/Categories/GpuFilter.js"></script>
+            <script>$(function () { new GpuFilter("@Model.QuickFilter", "@Model.Controller"); });</script>
             break;
+        case "Cooler":
+            <script src="~/js/Categories/Cooler.js"></script>
+            <script>$(function () { new CoolerFilter("@Model.QuickFilter", "@Model.Controller"); });</script>
+            break;
+
     }
 }
 
@@ -80,13 +86,15 @@
         -webkit-appearance: none;
         margin: 0;
     }
+
     .text {
-       display: block;
-       width: 350px;
-       overflow: hidden;
-       white-space: nowrap;
-       text-overflow: ellipsis;
-     }
+        display: block;
+        width: 350px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
     .p {
         cursor: pointer;
         transition: box-shadow 0.7s;
