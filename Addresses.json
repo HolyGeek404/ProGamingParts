@@ -1,0 +1,30 @@
+[
+  {
+    "DeliveryAddressId": 1,
+    "Name": "Wiktor",
+    "Surname": "Matkowski",
+    "City": "Miasto",
+    "PostalCode": "11-111",
+    "Street": "Street",
+    "BlockNumber": "11",
+    "ApartmentNumber": "12",
+    "Email": "email@wp.pl",
+    "UserId": 37
+  },
+  {
+    "DeliveryAddressId": 2,
+    "Name": "Adam",
+    "Surname": "Kox",
+    "City": "Konstantynopol",
+    "PostalCode": "10-1011",
+    "Street": "Ulica",
+    "BlockNumber": "1",
+    "ApartmentNumber": "1",
+    "Email": "kox@wp.pl",
+    "UserId": 63
+  }
+]
+INSERT INTO DeliveryAddresses (DeliveryAddressId, Name, Surname, City, PostalCode, Street, BlockNumber, ApartmentNumber, Email, UserId)
+VALUES
+(1, 'Wiktor', 'Matkowski', 'Miasto', '11-111', 'Street', '11', '12', 'email@wp.pl', 37),
+(2, 'Adam', 'Kox', 'Konstantynopol', '10-1011', 'Ulica', '1', '1', 'kox@wp.pl', 63);

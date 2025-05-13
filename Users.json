@@ -1,0 +1,113 @@
+[
+  {
+    "UserId": 19,
+    "Email": "asd@wp.pl",
+    "Name": "WiktorAA",
+    "Surname": "Matkowski",
+    "Password": "Iq<g|Wk8G|EtDx,U)xaJ:gCZbjtQxaJ:gI|{OX<)x8UQ6p@qJY",
+    "Type": "User",
+    "IsActive": "1",
+    "Key": null,
+    "DeliveryAddressId": 0
+  },
+  {
+    "UserId": 23,
+    "Email": "bbb@wp.pl",
+    "Name": "Rychu",
+    "Surname": "Peja",
+    "Password": "eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+",
+    "Type": "User",
+    "IsActive": "1",
+    "Key": null,
+    "DeliveryAddressId": 0
+  },
+  {
+    "UserId": 37,
+    "Email": "abc@wp.pl",
+    "Name": "Paweaaa",
+    "Surname": "Polaaa",
+    "Password": "eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+",
+    "Type": "Admin",
+    "IsActive": "1",
+    "Key": null,
+    "DeliveryAddressId": 0
+  },
+  {
+    "UserId": 40,
+    "Email": "smaczkizkaczki@wp.pl",
+    "Name": "Odi",
+    "Surname": "BubolPupol",
+    "Password": "eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+",
+    "Type": "User",
+    "IsActive": "1",
+    "Key": null,
+    "DeliveryAddressId": 0
+  },
+  {
+    "UserId": 41,
+    "Email": "bubol@wp.pl",
+    "Name": "Bobi",
+    "Surname": "Srodi",
+    "Password": "eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+",
+    "Type": "Warehouse",
+    "IsActive": "1",
+    "Key": null,
+    "DeliveryAddressId": 0
+  },
+  {
+    "UserId": 47,
+    "Email": "dfgdfgdfgdbvcb@wp.pl",
+    "Name": "Adgdfgdf",
+    "Surname": "Afgdfgdfg",
+    "Password": "eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+",
+    "Type": "User",
+    "IsActive": "1",
+    "Key": null,
+    "DeliveryAddressId": 0
+  },
+  {
+    "UserId": 62,
+    "Email": "fghrfhgert@wp.pl",
+    "Name": "Aafgsdfgsd",
+    "Surname": "Ajtyjktyuj",
+    "Password": "eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+",
+    "Type": "User",
+    "IsActive": "0",
+    "Key": "6fa08f54-72d6-4dc3-85ee-1c78757b9c41",
+    "DeliveryAddressId": 0
+  },
+  {
+    "UserId": 63,
+    "Email": "kox@wp.pl",
+    "Name": "Adam",
+    "Surname": "Kox",
+    "Password": "eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+",
+    "Type": "User",
+    "IsActive": "1",
+    "Key": null,
+    "DeliveryAddressId": 0
+  },
+  {
+    "UserId": 64,
+    "Email": "email@wp.pl",
+    "Name": "Imie",
+    "Surname": "Nazwisko",
+    "Password": "tDx,U)xaJ:g<8{YV)y[2Wk8qJYVYqd?=F4U@01]qbZS+",
+    "Type": "User",
+    "IsActive": "1",
+    "Key": null,
+    "DeliveryAddressId": 0
+  }
+]
+
+INSERT INTO Users (UserId, Email, Name, Surname, Password, Type, IsActive, Key, DeliveryAddressId)
+VALUES
+(19, 'asd@wp.pl', 'WiktorAA', 'Matkowski', 'Iq<g|Wk8G|EtDx,U)xaJ:gCZbjtQxaJ:gI|{OX<)x8UQ6p@qJY', 'User', 1, NULL, 0),
+(23, 'bbb@wp.pl', 'Rychu', 'Peja', 'eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+', 'User', 1, NULL, 0),
+(37, 'abc@wp.pl', 'Paweaaa', 'Polaaa', 'eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+', 'Admin', 1, NULL, 0),
+(40, 'smaczkizkaczki@wp.pl', 'Odi', 'BubolPupol', 'eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+', 'User', 1, NULL, 0),
+(41, 'bubol@wp.pl', 'Bobi', 'Srodi', 'eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+', 'Warehouse', 1, NULL, 0),
+(47, 'dfgdfgdfgdbvcb@wp.pl', 'Adgdfgdf', 'Afgdfgdfg', 'eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+', 'User', 1, NULL, 0),
+(62, 'fghrfhgert@wp.pl', 'Aafgsdfgsd', 'Ajtyjktyuj', 'eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+', 'User', 0, '6fa08f54-72d6-4dc3-85ee-1c78757b9c41', 0),
+(63, 'kox@wp.pl', 'Adam', 'Kox', 'eoe)x8UQIq<g|K#o+kWk8I|{OX<qJYVYqd?=F4U@01]qbZS+', 'User', 1, NULL, 0),
+(64, 'email@wp.pl', 'Imie', 'Nazwisko', 'tDx,U)xaJ:g<8{YV)y[2Wk8qJYVYqd?=F4U@01]qbZS+', 'User', 1, NULL, 0);

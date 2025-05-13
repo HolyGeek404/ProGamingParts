@@ -1,0 +1,188 @@
+[
+  {
+    "OrderDetailId": 1,
+    "ProductId": 5,
+    "Quantity": 1,
+    "Type": "CPU",
+    "OrderId": 1042
+  },
+  {
+    "OrderDetailId": 2,
+    "ProductId": 5,
+    "Quantity": 1,
+    "Type": "GPU",
+    "OrderId": 1042
+  },
+  {
+    "OrderDetailId": 3,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "COOLER",
+    "OrderId": 1042
+  },
+  {
+    "OrderDetailId": 4,
+    "ProductId": 5,
+    "Quantity": 1,
+    "Type": "CPU",
+    "OrderId": 1043
+  },
+  {
+    "OrderDetailId": 5,
+    "ProductId": 5,
+    "Quantity": 1,
+    "Type": "GPU",
+    "OrderId": 1043
+  },
+  {
+    "OrderDetailId": 6,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "COOLER",
+    "OrderId": 1043
+  },
+  {
+    "OrderDetailId": 7,
+    "ProductId": 5,
+    "Quantity": 1,
+    "Type": "CPU",
+    "OrderId": 1044
+  },
+  {
+    "OrderDetailId": 8,
+    "ProductId": 5,
+    "Quantity": 1,
+    "Type": "GPU",
+    "OrderId": 1044
+  },
+  {
+    "OrderDetailId": 9,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "COOLER",
+    "OrderId": 1044
+  },
+  {
+    "OrderDetailId": 10,
+    "ProductId": 5,
+    "Quantity": 1,
+    "Type": "CPU",
+    "OrderId": 1045
+  },
+  {
+    "OrderDetailId": 11,
+    "ProductId": 5,
+    "Quantity": 1,
+    "Type": "GPU",
+    "OrderId": 1045
+  },
+  {
+    "OrderDetailId": 12,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "COOLER",
+    "OrderId": 1045
+  },
+  {
+    "OrderDetailId": 13,
+    "ProductId": 5,
+    "Quantity": 1,
+    "Type": "CPU",
+    "OrderId": 1046
+  },
+  {
+    "OrderDetailId": 14,
+    "ProductId": 5,
+    "Quantity": 2,
+    "Type": "GPU",
+    "OrderId": 1046
+  },
+  {
+    "OrderDetailId": 15,
+    "ProductId": 10,
+    "Quantity": 1,
+    "Type": "COOLER",
+    "OrderId": 1046
+  },
+  {
+    "OrderDetailId": 16,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "CPU",
+    "OrderId": 1047
+  },
+  {
+    "OrderDetailId": 17,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "COOLER",
+    "OrderId": 1047
+  },
+  {
+    "OrderDetailId": 18,
+    "ProductId": 4,
+    "Quantity": 1,
+    "Type": "GPU",
+    "OrderId": 1047
+  },
+  {
+    "OrderDetailId": 19,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "CPU",
+    "OrderId": 1048
+  },
+  {
+    "OrderDetailId": 20,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "COOLER",
+    "OrderId": 1048
+  },
+  {
+    "OrderDetailId": 21,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "GPU",
+    "OrderId": 1048
+  },
+  {
+    "OrderDetailId": 22,
+    "ProductId": 1,
+    "Quantity": 1,
+    "Type": "CPU",
+    "OrderId": 1049
+  },
+  {
+    "OrderDetailId": 23,
+    "ProductId": 3,
+    "Quantity": 1,
+    "Type": "CPU",
+    "OrderId": 1050
+  }
+]
+INSERT INTO OrderDetails (OrderDetailId, ProductId, Quantity, Type, OrderId)
+VALUES
+(1, 5, 1, 'CPU', 1042),
+(2, 5, 1, 'GPU', 1042),
+(3, 1, 1, 'COOLER', 1042),
+(4, 5, 1, 'CPU', 1043),
+(5, 5, 1, 'GPU', 1043),
+(6, 1, 1, 'COOLER', 1043),
+(7, 5, 1, 'CPU', 1044),
+(8, 5, 1, 'GPU', 1044),
+(9, 1, 1, 'COOLER', 1044),
+(10, 5, 1, 'CPU', 1045),
+(11, 5, 1, 'GPU', 1045),
+(12, 1, 1, 'COOLER', 1045),
+(13, 5, 1, 'CPU', 1046),
+(14, 5, 2, 'GPU', 1046),
+(15, 10, 1, 'COOLER', 1046),
+(16, 1, 1, 'CPU', 1047),
+(17, 1, 1, 'COOLER', 1047),
+(18, 4, 1, 'GPU', 1047),
+(19, 1, 1, 'CPU', 1048),
+(20, 1, 1, 'COOLER', 1048),
+(21, 1, 1, 'GPU', 1048),
+(22, 1, 1, 'CPU', 1049),
+(23, 3, 1, 'CPU', 1050);
